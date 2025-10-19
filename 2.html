@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Second Page</title>
+  <style>
+    body {
+      background: linear-gradient(90deg, #217feb, #3fa0fa);
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .box {
+      width: 90%;
+      max-width: 600px;
+      color: aliceblue;
+      border: 2px solid #3fa0fa;
+      margin: 40px auto;
+      background: #3fa0fa;
+      text-align: center;
+      text-shadow: 0 4px 12px rgba(68, 223, 63, 0.5);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      padding: 15px;
+    }
+
+    .box h1 {
+      font-size: 1.8rem;
+      margin: 10px 0;
+    }
+
+    .main {
+      position: relative;
+      width: 95%;
+      max-width: 1000px;
+      margin-bottom: 40px;
+    }
+
+    .main img {
+      width: 100%;
+      border-radius: 10px;
+      display: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .main img.active {
+      display: block;
+    }
+
+    /* Arrow buttons */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+      border: none;
+      font-size: 24px;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background 0.3s ease;
+    }
+
+    .arrow:hover {
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .prev {
+      left: 10px;
+    }
+
+    .next {
+      right: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .box h1 {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .box {
+        width: 95%;
+        padding: 10px;
+      }
+      .box h1 {
+        font-size: 1.2rem;
+      }
+      .arrow {
+        font-size: 18px;
+        padding: 8px 10px;
+      }
+    }
+
+    .f2 {
+      margin: 30px 0;
+    }
+
+    .f2 button {
+      padding: 12px 25px;
+      background-color: #217feb;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      color: aliceblue;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .f2 button:hover {
+      background-color: #2669a8;
+    }
+
+    .footer {
+      font-size: 16px;
+      color: #68f34f;
+      width: 100%;
+      background: #052850;
+      text-align: center;
+      margin-top: 5px;
+      padding: 10px 0;
+    }
+
+    .footer span {
+      color: #ffffff;
+    }
+
+    .in {
+      margin-bottom: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Pakistan Railway Locomotives Details</h1>
+  </div>
+
+  <div class="in"><img src="loco.png" width="100%" alt=""></div>
+
+  <div class="main">
+    <img src="h3.PNG" alt="Locomotive 1" class="active">
+    <img src="h4.PNG" alt="Locomotive 2">
+
+    <button class="arrow prev" onclick="changeSlide(-1)">&#10094;</button>
+    <button class="arrow next" onclick="changeSlide(1)">&#10095;</button>
+  </div>
+
+  <div class="f2">
+    <a href="1.html"><button>View All Locomotives</button></a>
+  </div>
+
+  <div class="footer">Copyright © 2025 <span>Hamza Web-Developer,</span> Powered By <span>Digitechtic</span>.</div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.main img');
+
+    function showSlide(index) {
+      slides.forEach((img, i) => {
+        img.classList.toggle('active', i === index);
+      });
+    }
+
+    function changeSlide(direction) {
+      currentSlide = (currentSlide + direction + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+  </script>
+</body>
+</html>
