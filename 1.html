@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pakistan Locomotives Detail</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+
+        * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+            background: linear-gradient(90deg, #217feb, #3fa0fa);
+    }
+
+    /* Navbar */
+    nav.navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(90deg,  #11345c, #1e8ac9);
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 40px;
+      z-index: 1000;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    nav.navbar a {
+      color: aliceblue;
+      text-decoration: none;
+    }
+
+    /* Logo Section */
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 74px;
+      height: 74px;
+      object-fit: contain;
+    }
+
+    .logo-section h4 {
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #00ffcc;
+    }
+
+    /* Nav Links */
+    .nav-links {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 35px;
+      font-size: 18px;
+      flex: 1;
+    }
+
+    .nav-links li {
+      cursor: pointer;
+      position: relative;
+      padding: 5px 0;
+      transition: color 0.3s ease;
+      font-size: 21px;
+    }
+
+    .nav-links li::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 0%;
+      height: 2px;
+      background: #00ffcc;
+      transition: width 0.3s ease;
+    }
+
+    .nav-links li:hover {
+      color: #00ffcc;
+    }
+
+    .nav-links li:hover::after {
+      width: 100%;
+    }
+
+    /* Right Section */
+    .right-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .railway-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-align: right;
+    }
+
+    .railway-text h5 {
+      font-size: 20px;
+      color: #00ffcc;
+      font-weight: bold;
+    }
+
+    .railway-text .urdu {
+      font-size: 25px;
+      font-family: "Noto Nastaliq Urdu", serif;
+    }
+
+    .railway-logo {
+      width: 73px;
+      height: 55px;
+      object-fit: contain;
+    }
+
+    /* Toggle Button */
+    .toggle-btn {
+      display: none;
+      font-size: 28px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    @media (max-width: 768px) {
+      .railway-section {
+        display: none;
+      }
+
+      .toggle-btn {
+        display: block;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 65px;
+        left: 0;
+        background: #111;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 20px 0;
+        display: none;
+        animation: slideDown 0.4s ease forwards;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-15px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+
+    .bullet img {
+      width: 100%;
+      padding-top: 43px;
+    }
+
+
+    /* Main Layout */
+    .main-content {
+      display: flex;
+      margin-top: 20px;
+      gap: 30px;
+      width: 95%;
+      max-width: 1600px;
+    }
+
+    /* LEFT PANEL */
+    .detail-panel {
+      flex: 1;
+        background: #126392;
+      padding: 10px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      color: #fff;
+      min-height: 300px;
+      overflow-x: auto;
+    }
+
+
+    .detail-panel h2 {
+      color: #ffffff;
+      margin-bottom: 15px;
+      font-weight: bolder;
+    }
+
+    .detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 300px; /* table ke liye horizontal scroll allow */
+    }
+
+    .detail-table th, .detail-table td {
+      border: 1px solid #e9e2e2;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .detail-table th {
+      background: #333;
+      color: lin#90ee83;
+    }
+
+    /* RIGHT BOXES */
+    .big-container {
+      flex: 2;
+      max-height: 600px;
+      overflow-y: scroll;
+      background: #126392;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(4, 101, 167, 0.5);
+      border-radius: 12px;
+    }
+
+    .boxes-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+    }
+
+    .box { 
+      background: #ffffff10;
+      text-align: center;
+      box-shadow: 0px 5px 12px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .box:hover {
+      transform: translateY(-8px);
+    }
+
+    .box img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      margin-bottom: 15px;
+    
+    }
+
+    .box h1 {
+      font-size: 20px;
+      color: #e2f7db;
+      margin-bottom: 5px;
+    }
+    .box h5{
+      color: #e9e2e2;
+      font-size: 19px;
+    }
+
+    .box p {
+      font-size: 15px;
+      color: #fff;
+    }
+
+    /* ✅ Responsive Breakpoints */
+    @media (max-width: 992px) {
+      .main-content {
+        flex-direction: column;
+      }
+      .bullet img{
+        padding-top: 100px;
+      }
+      .big-container {
+        max-height: unset;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .boxes-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
+      .boxes-container {
+        grid-template-columns: 1fr;
+      }
+      .detail-panel, .big-container {
+        padding: 15px;
+      }
+    }
+    .footer{
+      font-size: 16px;
+      color: #68f34f;
+      width: 100%;
+         background: #052850;
+      text-align: center;
+   margin-top: 5px;
+    }
+    .footer span{
+      color: #ffffff;
+    }
+
+  </style>
+</head>
+<body>
+
+      <nav class="navbar">
+    <div class="logo-section">
+      <img src="logo.png" alt="Pak Live Logo" class="logo">
+      <h4>Pak Live</h4>
+    </div>
+    <div class="toggle-btn" onclick="toggleMenu()">☰</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Service</a></li>
+      <li><a href="map.html">Map</a></li>
+    </ul>
+    <div class="right-section">
+      <div class="railway-section">
+        <div class="railway-text">
+          <h5>Pakistan Railway</h5>
+          <p class="urdu">پاکستان ریلویز</p>
+        </div>
+        <img src="13.jpg" alt="Railway Logo" class="railway-logo">
+      </div>
+    </div>
+  </nav>
+
+
+
+  <div class="bullet">
+    <img src="loco.png" alt="Main Loco Image">
+  </div>
+
+  <div class="main-content">
+    <!-- LEFT TABLE PANEL -->
+    <div class="detail-panel" id="detailPanel">
+      <h2>Pakistan Locomotives <span>Detail</span></h2>
+      <h2>Select a Locomotive</h2>
+      <p>Click on any locomotive from the right to see its details in table format.👉 </p>
+    </div>
+
+    <!-- RIGHT LOCOMOTIVE BOXES -->
+    <div class="big-container">
+      <div class="boxes-container">
+
+        <div class="box" onclick="showDetail('ALP 14','FCA-3 /<br/> ALCO<br/> DL212','23','	(DE) 2001–<br/>2023','ALCO','1951 through<br/> 1953','90 km/h<br/> (56 mph)','','1,400 bhp (1,040 kW)')">
+          <h5>Click Here to View Detail 👇</h5>
+          <img src="ALP 14_small.jpg" alt="Locomotive 1">
+          <h1>ALP 14</h1>
+          <p>Imported in 1951 - 1400 HP</p>
+        </div>
+
+        <div class="box" onclick="showDetail('ARP 20','DL212','23','2075–2097','ALCO<br/>Bomberdier<br/>Pakistan Locomotive<br/>Factory','1977-2010','	120 km/h<br/> (75 mph)','	Scrapped','	2,000 bhp<br/> (1,490 kW)')">
+          <h5>Click Here to View Detail 👇</h5>
+          <img src="ARP 20_small (2).jpg" alt="Locomotive 2">
+          <h1>ARP 20</h1>
+          <p>Imported in 1977 - 2000 HP</p>
+        </div>
+
+        <div class="box" onclick="showDetail('ALPW 16','DL500C','2','2024-2025','ALCO','1956','	120 km/h<br/>(75 mph)','','1,600 bhp<br/> (1,190 kW)')">
+                 <h5>Click Here to View Detail 👇</h5>
+          <img src="ALPW 16_small.jpg" alt="Locomotive 3">
+          <h1>ALPW 16</h1>
+          <p>Imported in 1956 - 1600 HP</p>
+        </div>
+           <div class="box" onclick="showDetail('ALPW 18', 'DL500CI','48','2026–2074','ALCO','1958','	120 km/h <br/>(75 mph)','Scrapped','1800 bhp<br/>  (1,490 kW)')">
+                   <h5>Click Here to View Detail 👇</h5>
+      <img src="ALPW 18_small (1).jpg" alt="Locomotive 4">
+      <h1>ALPW 18</h1>
+      <p>Imported in 1958 - 1800 HP</p>
+    </div>
+
+    <div class="box" onclick="showDetail('CLP 15','	EMD F7','9','2101–2109','Clyde Engineering','1955-2005','	123 km/h (76 mph)','Scrapped','1,500 bhp (1,120 kW)')">
+             <h5>Click Here to View Detail 👇</h5>
+      <img src="CLP 15_small.jpg" alt="Locomotive 5">
+      <h1>CLP 15</h1>
+      <p>Imported in 1955 - 1500 HP</p>
+    </div>
+       <div class="box" onclick="showDetail('ALU 14','E-1662','26','3301–3326','ALCO','1952','	90 km/h (56 mph)','Scrapped','1,400 bhp (1,040 kW)')">
+               <h5>Click Here to View Detail 👇</h5>
+      <img src="ALU 14_small1.jpg" alt="Locomotive 6">
+      <h1>ALU14</h1>
+      <p>Imported in 1952 - 1400 HP</p>
+    </div>
+        <div class="box" onclick="showDetail('ALU 18','DL541','30','3327–3356','ALCO','	1961','120 km/h (75 mph)','','	1,800 bhp (1,340 kW)')">
+                 <h5>Click Here to View Detail 👇</h5>
+      <img src="ALU 18_small.jpg" alt="Locomotive 7">
+      <h1>ALU 18</h1>
+      <p>Imported in 1961 - 1800 HP</p>
+    </div>
+       <div class="box" onclick="showDetail('ALU 95','DL531','25','	3400–3424	','ALCO','1958','104 km/h<br/> (65 mph)','', '950 bhp <br/>(708 kW)')">
+               <h5>Click Here to View Detail 👇</h5>
+      <img src="ALU 95_small.jpg" alt="Locomotive 8">
+      <h1>ALU 95</h1>
+      <p>Imported in 1958 - 950 HP</p>
+    </div>
+    <div class="box" onclick="showDetail('GEU 61','	GE 61-<br/>Ton<br/> Switcher','10','3501–3510','General Electric','1954','	80 km/h <br/>(50 mph)','','	610 bhp <br/>(455 kW)')">
+             <h5>Click Here to View Detail 👇</h5>
+      <img src="geu61.jpg" alt="Locomotive 9">
+      <h1>GEU 61</h1>
+      <p>Imported in 1954 - 610 HP</p>
+    </div>
+    <div class="box" onclick="showDetail('GEU 64','?','5','	3511–3515','General Electrical','1954','	80 km/h <br/>(50 mph)','','	640 bhp<br/> (477 kW)')">
+             <h5>Click Here to View Detail 👇</h5>
+      <img src="GEU 64_small.jpg" alt="Locomotive 10">
+      <h1>GEU 64</h1>
+      <p>Imported in 1954 - 640 HP</p>
+    </div>
+         <div class="box" onclick="showDetail('FAU 66','?','18','	3601–3618','Alsthom','1954','72 km/h <br/>(45 mph)','','	660 bhp <br/>(492 kW)')">
+                 <h5>Click Here to View Detail 👇</h5>
+      <img src="fau66.jpeg" alt="Locomotive 10">
+      <h1>FAU 66</h1>
+      <p>Imported in 1954 - 660 HP</p>
+    </div>
+          <div class="box" onclick="showDetail('FRAU 75','GL-22-CU','2','3602/3609','	Alsthom','1979','69 km/h<br/> (43 mph)','','750 bhp <br/>(559 kW)')">
+                   <h5>Click Here to View Detail 👇</h5>
+      <img src="FRAU 75_small.jpg" alt="Locomotive 10">
+      <h1>FRAU 75</h1>
+      <p>Imported in 1979 - 750 HP</p>
+    </div>
+      <div class="box" onclick="showDetail('ALU 26','DL560','1','	3770','ALCO','1965','120 km/h <br/>(75 mph)','','	2,600 bhp <br/>(1,940 kW)')">
+               <h5>Click Here to View Detail 👇</h5>
+      <img src="ALU26.jpg" alt="Locomotive 10">
+      <h1>ALU 26</h1>
+      <p>Imported in 1965 - 2600 HP</p>
+    </div>
+          <div class="box" onclick="showDetail('ALU 12','DL535','53','	3701–3753','ALCO','1962','	96 km/h <br/>(60 mph)','','	1,200 bhp <br/>(895 kW)')">
+                   <h5>Click Here to View Detail 👇</h5>
+      <img src="ALU 12_small.jpg" alt="Locomotive 10">
+      <h1>ALU 12</h1>
+      <p>Imported in 1962 - 1200 HP</p>
+    </div>
+          <div class="box" onclick="showDetail('ARPW 20','DL 500C/FD-7','42','3801–3842','ALCO <br/>Bombardier','1982','	120 km/h <br/>(75 mph)','','	2,000 bhp<br/> (1,490 kW)')">
+                   <h5>Click Here to View Detail 👇</h5>
+      <img src="ARPW 20_small.jpg" alt="Locomotive 10">
+      <h1>ARPW 20</h1>
+      <p>Imported in 1982 - 2000 HP</p>
+    </div>
+          <div class="box" onclick="showDetail('ALU 20R','DL541','7','3901–3907','ALCO<br/>Bomberdier<br/>Pakistan<br/>Locomotive Factory','1982','120 km/h <br/>(75 mph)','','	2,000 bhp<br/> (1,490 kW)')">
+                   <h5>Click Here to View Detail 👇</h5>
+      <img src="ALU 20R_small.jpg" alt="Locomotive 10">
+      <h1>ALU 20R</h1>
+      <p>Imported in 1982 - 2000 HP</p>
+    </div>
+          <div class="box" onclick="showDetail('GEU 15','GE U15C','23','4001–4023','General Electric','1970','121 km/h <br/>(75 mph)','','	1,500 bhp <br/>(1,120 kW)')">
+                 <h5>Click Here to View Detail 👇</h5>
+      <img src="GEU 15_small.jpg" alt="Locomotive 10">
+      <h1>GEU 15</h1>
+      <p>Imported in 1970 - 1500 HP</p>
+    </div>
+       <div class="box" onclick="showDetail('ALU 20','DL543','52','4401–4452','ALCO','1962','120 km/h <br/>(75 mph)','','	2,000 bhp <br/>(1,490 kW)')">
+             <h5>Click Here to View Detail 👇</h5>
+      <img src="ALU 20_small.jpg" alt="Locomotive 10">
+      <h1>ALU 20</h1>
+      <p>Imported in 1962 - 2000 HP</p>
+    </div>
+          <div class="box" onclick="showDetail('ARU 20','E 1662','26','4471–4496','ALCO<br/>Bombardier','1976','	120 km/h <br/>(75 mph)','','	2,000 bhp <br/>(1,490 kW)')">
+                 <h5>Click Here to View Detail 👇</h5>
+      <img src="ARU 20_small.jpg" alt="Locomotive 10">
+      <h1>ARU 20</h1>
+      <p>Imported in 1976 - 2000 HP</p>
+    </div>
+          <div class="box" onclick="showDetail('GMU 15','E 1503','32','4801–4832','GENERAL Motors','1975','110 km/h <br/>(68 mph)','Active','	1,500 bhp<br/> (1,120 kW)')">
+                 <h5>Click Here to View Detail 👇</h5>
+      <img src="GMU 15_small.jpg" alt="Locomotive 10">
+      <h1>GMU 15</h1>
+      <p>Imported in 1975 - 1500 HP</p>
+    </div>
+         <div class="box" onclick="showDetail('GEU 20','U-20-C','42','	4501–4542','General Electric','1971','121 km/h <br/>(75 mph)','Active','2,000 bhp <br/>(1,490 kW)' )">
+               <h5>Click Here to View Detail 👇</h5>
+      <img src="GEU 20_small.jpg" alt="Locomotive 10">
+      <h1>GEU 20</h1>
+      <p>Imported in 1971 - 2000 HP</p>
+    </div>
+           <div class="box" onclick="showDetail('ALU 24','DL-560','20','	4601–4620','ALCO','1967','	120 km/h<br/> (75 mph)','','	2,400 bhp <br/>(1,790 kW)')">
+                 <h5>Click Here to View Detail 👇</h5>
+      <img src="ALU 24_small.jpg" alt="Locomotive 10">
+      <h1>ALU 24</h1>
+      <p>Imported in 1967 - 2400 HP</p>
+    </div>
+           <div class="box" onclick="showDetail('GMU 30','GT-26-C<br/> W2','36','4701–4736','General Motors','1975','	121 km/h<br/> (75 mph)','Active','	3,000 bhp<br/> (2,240 kW)')">
+                 <h5>Click Here to View Detail 👇</h5>
+      <img src="GMU 30_small.jpg" alt="Locomotive 10">
+      <h1>GMU 30</h1>
+      <p>Imported in 1975 - 3000 HP</p>
+    </div>
+           <div class="box" onclick="showDetail('GMCU 15','	GL-22-CU','30','4901–4930','General Motors','1979','120 km/h <br/>(75 mph)','Active','	1,500 bhp<br/> (1,120 kW)')">
+                 <h5>Click Here to View Detail 👇</h5>
+      <img src="GMCU 15_small.jpg" alt="Locomotive 10">
+      <h1>GMCU 15</h1>
+      <p>Imported in 1979 - 15000 HP</p>
+    </div>
+              <div class="box" onclick="showDetail('GRU 20','C20-7i','48','5001–5048','	ALCO,<br/> Bombardier,<br/> General Electric,<br/> Pakistan Locomotive,<br/> Factory','1996','	122 km/h<br/> (76 mph)','','	2,000 bhp<br/> (1,490 kW)')">
+                     <h5>Click Here to View Detail 👇</h5>
+      <img src="GRU 20_small.jpg" alt="Locomotive 10">
+      <h1>GRU 20</h1>
+      <p>Imported in 1996 - 2000 HP</p>
+    </div>
+           <div class="box" onclick="showDetail('RGE 20','C20-7i','27','5101–5127','General<br/> Electric<br/> Moghalpura<br/> Railway<br/> Workshops','1999','122 km/h<br/> (76 mph)','Active','	2,000 bhp<br/> (1,490 kW)')">
+                 <h5>Click Here to View Detail 👇</h5>
+      <img src="RGE 20_small.jpg" alt="Locomotive 10">
+      <h1>RGE 20</h1>
+      <p>Imported in 1999 - 2000 HP</p>
+    </div>
+               <div class="box" onclick="showDetail('RGE 24','GE C24-7i','21','5201–5221','General Electric<br/>Moghalpura<br/>Railway<br/>Workshop','2002','	122 km/h<br/> (76 mph)','Active','	2,000 bhp<br/> (1,490 kW)')">
+                     <h5>Click Here to View Detail 👇</h5>
+      <img src="RGE 24_small.jpg" alt="Locomotive 10">
+      <h1>RGE 24</h1>
+      <p>Imported in 2002 - 2000 HP</p>
+    </div>
+                 <div class="box" onclick="showDetail('AGE 30','DE-<br/>DC33-CA','30','6001–6030','Adtranz<br/>General Electric<br/>Pakistan<br/>Locomotive<br/>Factory','1996','122 km/h<br/> (76 mph)','Active','	3,000 bhp<br/> (2,240 kW)')">
+                       <h5>Click Here to View Detail 👇</h5>
+      <img src="AGE 30_small.jpg" alt="Locomotive 10">
+      <h1>AGE 30</h1>
+      <p>Imported in 1996 - 3000 HP</p>
+    </div> 
+                  <div class="box" onclick="showDetail('DPU 30','	Dloco CKD9','44','6101–6144','CRRC Dalian,<br/> ALCO','2002','	122 km/h<br/> (76 mph)','Withdrawn','2,000 bhp<br/> (1,490 kW)')">
+                         <h5>Click Here to View Detail 👇</h5>
+      <img src="DPU 30_small.jpg" alt="Locomotive 10">
+      <h1>DPU 30</h1>
+      <p>Imported in 2002 - 3000 HP</p>
+    </div> 
+                  <div class="box" onclick="showDetail('DPU 20','Dloco <br/>CKD9','44','6101–6144','CRRC Dalian, ALCO','2002','122 km/h<br/> (76 mph)','Withdrawn','2,000 bhp<br/> (1,490 kW)')">
+                         <h5>Click Here to View Detail 👇</h5>
+      <img src="DPU 20_small.jpg" alt="Locomotive 10">
+      <h1>DPU 20</h1>
+      <p>Imported in 2002 - 2000 HP</p>
+    </div> 
+                  <div class="box" onclick="showDetail('ZCU 30','Zyloco SDD23','34','6301–6329,<br/>6351–<br/>6355','CRRC Ziyang,<br/> Caterpillar','2014','	120 km/h<br/> (75 mph)','Active','	3,000 bhp<br/> (2,240 kW)')">
+                         <h5>Click Here to View Detail 👇</h5>
+      <img src="zcu 30.jpeg" alt="Locomotive 10">
+      <h1>ZCU 30</h1>
+      <p>Imported in 2014 - 3000 HP</p>
+    </div> 
+                  <div class="box" onclick="showDetail('ZCU 20','Zyloco<br/> SDD22','29','6401–6429','CRRC Ziyang,<br/> Caterpillar','2014','120 km/h<br/> (75 mph)','Active','2,628 bhp<br/> (1,960 kW)	')">
+                         <h5>Click Here to View Detail 👇</h5>
+      <img src="zcu20.jpeg" alt="Locomotive 10">
+      <h1>ZCU 20</h1>
+      <p>Imported in 2014 - 2,628 HP</p>
+    </div> 
+                  <div class="box" onclick="showDetail('HAU 10','HF-10A','4','6601–6604','Hitachi<br/>ALCO','1980','72 km/h<br/> (45 mph)','','1,000 bhp<br/> (746 kW)')">
+                         <h5>Click Here to View Detail 👇</h5>
+      <img src="HAU 10_small.jpg" alt="Locomotive 10">
+      <h1>HAU 10</h1>
+      <p>Imported in 1980 - 1000 HP</p>
+    </div> 
+                  <div class="box" onclick="showDetail('HAU 20','HF-22A','28','8001–8028','Hitachi<br/>Alco','1982','	120 km/h<br/> (75 mph)','Scrapped','2,000 bhp<br/> (1,490 kW)')">
+                         <h5>Click Here to View Detail 👇</h5>
+      <img src="HAU 20_small.jpg" alt="Locomotive 10">
+      <h1>HAU 20</h1>
+      <p>Imported in 1982 - 2000 HP</p>
+    </div> 
+    
+                  <div class="box" onclick="showDetail('HBU 20','?','60','8029–8088','Hitachi<br/>ALCO','1986','125 km/h<br/> (78 mph)','Active','	2,200 bhp<br/> (1,640 kW)')">
+                         <h5>Click Here to View Detail 👇</h5>
+      <img src="hbu20.jpeg" alt="Locomotive 10">
+      <h1>HBU 20</h1>
+      <p>Imported in 1986 - 2000 HP</p>
+    </div> 
+    
+                  <div class="box" onclick="showDetail('HPU 20','HFA-24P','10','8101–8110','Hitachi','1982','120 km/h<br/> (75 mph)','Scrapped','2,000 bhp<br/> (1,490 kW)')">
+                         <h5>Click Here to View Detail 👇</h5>
+      <img src="HPU 20_small.jpg" alt="Locomotive 10">
+      <h1>HPU 20</h1>
+      <p>Imported in 1982 - 2000 HP</p>
+    </div> 
+                      <div class="box" onclick="showDetail('HGMU 30','GT 26 CW-2','30','8201–8230','Thyssen-Henschel,<br/> EMD','1985','	125 km/h<br/> (78 mph)','Active','	3,200 bhp<br/> (2,390 kW)')">
+                             <h5>Click Here to View Detail 👇</h5>
+      <img src="HGMU 30_small.jpg" alt="Locomotive 10">
+      <h1>HGMU 30</h1>
+      <p>Imported in 1985 - 3,200 HP</p>
+    </div> 
+    
+                      <div class="box" onclick="showDetail('PHA 20','	DE2200','23','8301–8323','	Hitachi<br/>Pakistan<br/>Locomotive<br/>Factory<br/>ALCO','1993','125 km/h<br/> (78 mph)','Active','	2,200 bhp<br/> (1,640 kW)')">
+                             <h5>Click Here to View Detail 👇</h5>
+      <img src="PHA 20_small.jpg" alt="Locomotive 10">
+      <h1>PHA 20</h1>
+      <p>Imported in 1993 - 2,200 HP</p>
+    </div> 
+    
+                      <div class="box" onclick="showDetail('GEU 40','	GE<br/> Evolution<br/> Series<br/> ES43ACi','55','9001–9055','General Electric','2017','110 km/h<br/> (68 mph)','Active','4,563 bhp<br/> (3,400 kW)')">
+                             <h5>Click Here to View Detail 👇</h5>
+      <img src="geu 40.jpeg" alt="Locomotive 10">
+      <h1>GEU 40</h1>
+      <p>Imported in 2017 - 4,563 HP</p>
+    </div> 
+                          <div class="box" onclick="showDetail('GEU 20','	GE<br/> Evolution<br/> SeriesGE<br/>C20EMP','20','4551–4570','General Electric','2019','120 km/h<br/> (75 mph)','Active','2,200 bhp<br/> (1,640 kW)')">
+                                 <h5>Click Here to View Detail 👇</h5>
+      <img src="geu20.jpeg" alt="Locomotive 10">
+      <h1>GEU 20</h1>
+      <p>Imported in 2019 - 2,200 HP</p>
+    </div> 
+    
+    
+
+        <!-- Aap aur locomotives isi tarah add karte rahiye -->
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Copyright © 2025 <span>Hamza Web-Developer,</span>  Powered By <span>Digitechtic</span> .</div>
+  <script>
+    function showDetail(name, year, hp, maker, info, intro, speed, status, power) {
+      document.getElementById("detailPanel").innerHTML = `
+        <h2>${name} - Details</h2>
+        <table class="detail-table">
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>Class</td>
+            <td>${name}</td>
+          </tr>
+          <tr>
+            <td>Model</td>
+            <td>${year}</td>
+          </tr>
+          <tr>
+            <td>Total Locomotives</td>
+            <td>${hp}</td>
+          </tr>
+          <tr>
+            <td>Grouping</td>
+            <td>${maker}</td>
+          </tr>
+          <tr>
+            <td>Manufacturer</td>
+            <td>${info}</td>
+          </tr>
+            <tr>
+            <td>Introduced</td>
+            <td>${intro}</td>
+          </tr>
+                  <tr>
+            <td>Speed</td>
+            <td>${speed}</td>
+          </tr>
+                  <tr>
+            <td>Status</td>
+            <td>${status}</td>
+          </tr>
+                  <tr>
+            <td>Power</td>
+            <td>${power}</td>
+          </tr>
+     
+        </table>
+      `;
+        if (window.innerWidth <= 995) {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+    }
+        function toggleMenu() {
+      document.getElementById("navLinks").classList.toggle("open");
+    }
+  </script>
+
+</body>
+</html>
