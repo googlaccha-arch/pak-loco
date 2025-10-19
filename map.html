@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Train Tracking</title>
+  <meta charset="utf-8"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    body { margin:0; font-family: Arial, sans-serif; }
+    #map { height: 90vh; }
+    #searchBar {
+      padding: 10px;
+      background: #f4f4f4;
+      border-bottom: 1px solid #ccc;
+    }
+    input {
+      padding: 8px;
+      width: 250px;
+    }
+    button {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="searchBar">
+    <input type="text" id="trainInput" placeholder="Enter Train Name...">
+    <button onclick="searchTrain()">Search</button>
+  </div>
+  <div id="map"></div>
+
+  <!-- Leaflet -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Socket.IO -->
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+  <script>
+    // initialize map
+    var map = L.map('map').setView([33.7, 73.0], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    var markers = {}; // store markers by train name
+    var trains = {};  // store latest train data
+
+    // connect to backend
+    var socket = io("http://localhost:4000");
+
+    // receive live positions
+    socket.on("position", function(data) {
+      trains[data.name.toLowerCase()] = data; // save train data by name
+      if (markers[data.name]) {
+        markers[data.name].setLatLng([data.lat, data.lon])
+          .bindPopup(`<b>${data.name}</b><br>Speed: ${data.speed} km/h`);
+      } else {
+        markers[data.name] = L.marker([data.lat, data.lon]).addTo(map)
+          .bindPopup(`<b>${data.name}</b><br>Speed: ${data.speed} km/h`);
+      }
+    });
+
+    // search function
+    function searchTrain() {
+      var query = document.getElementById("trainInput").value.toLowerCase();
+      if (trains[query]) {
+        var t = trains[query];
+        map.setView([t.lat, t.lon], 10);
+        markers[t.name].openPopup();
+      } else {
+        alert("Train not found!");
+      }
+    }
+  </script>
+</body>
+</html>  
